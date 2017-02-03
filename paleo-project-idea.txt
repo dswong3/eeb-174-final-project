@@ -1,7 +1,16 @@
 Rank of Species
-1.
-# Species
-2.
-# Species
-3.
-# Species
+
+1. Feliformia
+2782 Species
+tail -n +17 ../eeb-177/feliformia.csv | cut -d ';' -f 6 | sort | uniq | wc -l
+
+2. Lamnidae
+707 Species
+tail -n +17 ../eeb-177/Lamnidae.csv | cut -d ';' -f 6 | sort | uniq | wc -l
+
+
+3.Syngnathidae
+12 Species
+tail -n +17 ../eeb-177/Syngnathidae.csv | cut -d ';' -f 6 | sort | uniq | wc -l
+
+I have not decided but since all the Feliformia live in the same "early_interval," I may want to look at the "late_interval" and separate the data based on timeline of when they were around using a graph for visual representation. I might also play with popularity during those times, etc.
