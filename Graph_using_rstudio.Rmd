@@ -1,0 +1,53 @@
+---
+title: "Final Project Graphs"
+author: "Dustin Wong"
+date: "March 10, 2017"
+output: md_document
+---
+
+```{r}
+library(ggplot2)
+
+setwd("/home/eeb177-student/Desktop/eeb-177/eeb-174-final-project/")
+
+feliformia <- read.csv("feliformia-ranges.csv", header =F, as.is = T)
+
+names(feliformia) <- c("genus", "species", "minage", "maxage")
+head(feliformia)
+```
+
+```{r}
+for (i in 1:nrow(feliformia)){
+if(feliformia$minage[i] == feliformia$maxage[i]){
+ feliformia$minage[i] <- feliformia$minage[i] - .1
+  feliformia$maxage[i] <- feliformia$maxage[i] + .1
+}
+}
+
+abs(feliformia$maxage -feliformia$minage)
+
+feliformia_occ <- ggplot(feliformia, aes( species, ymin = maxage, ymax=minage, colour = genus))
+feliformia_occ <- feliformia_occ + geom_linerange()
+feliformia_occ <- feliformia_occ + theme(legend.position="none") #removes legend
+feliformia_occ <- feliformia_occ + coord_flip() #flips axis/graph
+feliformia_occ <- feliformia_occ +  theme(axis.text.y = element_text(size=4)) #larger text size
+feliformia_occ <- feliformia_occ + theme(axis.ticks.y=element_blank()) #removes tick marks
+feliformia_occ <- feliformia_occ + scale_y_continuous(limits=c(0, 40), expand = c(0, 0), breaks=c(0, 5, 10, 15, 20, 25, 30, 35, 40)) #removes white space on graphs
+feliformia_occ <- feliformia_occ + labs(title = "Feliformia Fossil Occurrences", x = "Species", y = "Ma ago") + theme(plot.title = element_text(hjust = 0.5, size=22, face = "bold"), axis.title =element_text(size=20))  #adds title/labels
+feliformia_occ 
+
+feliformia_occ <- feliformia_occ + theme(axis.title.x = element_text(margin(r=10)))
+
+
+
+
+```
+
+
+```{r}
+Feliformia <- read.csv("feliformia-1.csv", header =T, as.is = T)
+df <- paleobioDB::pbdb_occurrences(Feliformia$The.Paleobiology.Database)
+
+paleobioDB::pbdb_map(Feliformia, main = 'feliformia', pch = 19, cex = 0.7)
+
+```
